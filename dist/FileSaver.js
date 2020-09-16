@@ -62,10 +62,16 @@
     xhr.send();
   }
 
-  function corsEnabled(url) {
-    var xhr = new XMLHttpRequest(); // use sync to avoid popup blocker
+  function corsEnabled(url, opts) {
+    var xhr = new XMLHttpRequest();
 
-    xhr.open('HEAD', url, false);
+    if (opts && opts.noHead === true) {
+      xhr.open('GET', url, false);
+      xhr.setRequestHeader('Content-Range', '0-0');
+    } else {
+      // use sync to avoid popup blocker
+      xhr.open('HEAD', url, false);
+    }
 
     try {
       xhr.send();
@@ -107,7 +113,7 @@
       a.href = blob;
 
       if (a.origin !== location.origin) {
-        corsEnabled(a.href) ? download(blob, name, opts) : click(a, a.target = '_blank');
+        corsEnabled(a.href, opts) ? download(blob, name, opts) : click(a, a.target = '_blank');
       } else {
         click(a);
       }
@@ -127,7 +133,7 @@
     name = name || blob.name || 'download';
 
     if (typeof blob === 'string') {
-      if (corsEnabled(blob)) {
+      if (corsEnabled(blob, opts)) {
         download(blob, name, opts);
       } else {
         var a = document.createElement('a');
