@@ -67,7 +67,7 @@
 
     if (opts && opts.noHead === true) {
       xhr.open('GET', url, false);
-      xhr.setRequestHeader('Content-Range', '0-0');
+      xhr.setRequestHeader('Range', 'bytes=0-0');
     } else {
       // use sync to avoid popup blocker
       xhr.open('HEAD', url, false);
@@ -94,7 +94,7 @@
   // https://www.whatismybrowser.com/guides/the-latest-user-agent/macos
 
 
-  var isMacOSWebView = /Macintosh/.test(navigator.userAgent) && /AppleWebKit/.test(navigator.userAgent) && !/Safari/.test(navigator.userAgent);
+  var isMacOSWebView = _global.navigator && /Macintosh/.test(navigator.userAgent) && /AppleWebKit/.test(navigator.userAgent) && !/Safari/.test(navigator.userAgent);
   var saveAs = _global.saveAs || ( // probably in some web worker
   typeof window !== 'object' || window !== _global ? function saveAs() {}
   /* noop */

@@ -48,7 +48,7 @@ function corsEnabled (url, opts) {
   var xhr = new XMLHttpRequest()
   if (opts && opts.noHead === true) {
     xhr.open('GET', url, false);
-    xhr.setRequestHeader('Content-Range', '0-0');
+    xhr.setRequestHeader('Range', 'bytes=0-0');
   } else {
     // use sync to avoid popup blocker
     xhr.open('HEAD', url, false)
